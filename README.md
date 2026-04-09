@@ -103,6 +103,7 @@ API REST desenvolvida com **Java + Spring Boot** para gerenciamento de produtos.
 #### Request
 ```json
 {
+  "id": "e9ab1d09-d46d-464b-82a2-9509268b9c81",
   "name": "Produto Atualizado",
   "description": "Nova descrição",
   "imageUrl": "https://imagem.com/nova.png",
@@ -139,18 +140,6 @@ cd api-crud-java-springboot
 - O ID é gerado automaticamente (UUID)
 - O campo `createdAt` é preenchido automaticamente
 - O preço é armazenado em centavos (`priceInCents`)
-
----
-
-## 🔥 Melhorias futuras
-
-- Validação com Bean Validation
-- Paginação e filtros
-- Upload de imagens
-- Autenticação com JWT
-- Documentação com Swagger/OpenAPI
-
----
 
 ## 👨‍💻 Autor
 
