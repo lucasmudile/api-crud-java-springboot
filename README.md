@@ -1,146 +1,178 @@
-# 📦 API CRUD - Java Spring Boot
+# 🍔 Good Hamburger — Sistema de Pedidos
 
-API REST desenvolvida com **Java + Spring Boot** para gerenciamento de produtos.
-
----
-
-## 🚀 Tecnologias utilizadas
-
-- Java 17+
-- Spring Boot
-- Spring Data JPA
-- Hibernate
-- Lombok
-- Banco de dados H2
+Sistema completo de gestão de pedidos para lanchonete, desenvolvido como demonstração de **arquitetura limpa** em ASP.NET Core + Blazor WebAssembly.
 
 ---
 
-## 📌 Endpoints da API
+## 🚀 Como Executar
 
-### ➕ Criar produto
+### Pré-requisitos
+- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
 
-**POST /products**
-
-#### Request
-```json
-{
-  "name": "Produto Exemplo",
-  "description": "Descrição do produto",
-  "imageUrl": "https://imagem.com/produto.png",
-  "category": "ELECTRONICS",
-  "priceInCents": 150000
-}
-```
-
-#### Response
-```json
-{
-  "id": "uuid",
-  "name": "Produto Exemplo",
-  "description": "Descrição do produto",
-  "imageUrl": "https://imagem.com/produto.png",
-  "category": "ELECTRONICS",
-  "priceInCents": 150000,
-  "createdAt": "2026-04-09T10:00:00Z"
-}
-```
-
----
-
-### 📋 Listar produtos
-
-**GET /products**
-
-#### Response
-```json
-{
-  "items": [
-    {
-      "id": "e9ab1d09-d46d-464b-82a2-9509268b9c81",
-      "name": "Caneca Java",
-      "description": "Caneca clássica para dev Java.",
-      "imageUrl": "https://imgs.extra.com.br/1561024386/2xg.jpg?imwidth=1000",
-      "category": "mugs",
-      "priceInCents": 4990
-    },
-    {
-      "id": "65e892c2-9218-4dbe-9f26-4531265df9cf",
-      "name": "Camisa Spring Boot",
-      "description": "Caneca clássica para dev Java.",
-      "imageUrl": "https://imgs.extra.com.br/1561024386/2xg.jpg?imwidth=1000",
-      "category": "t-shirt",
-      "priceInCents": 7998
-    }
-  ],
-  "total": 2
-}
-```
-
----
-
-### 🔍 Buscar produto por ID
-
-**GET /products/{id}**
-
-#### Response
-```json
-{
-  "id": "e9ab1d09-d46d-464b-82a2-9509268b9c81",
-  "name": "Caneca Java",
-  "description": "Caneca clássica para dev Java.",
-  "imageUrl": "https://imgs.extra.com.br/1561024386/2xg.jpg?imwidth=1000",
-  "category": "mugs",
-  "priceInCents": 4990
-}
-```
-
----
-
-### ✏️ Atualizar produto
-
-**PUT /products/{id}**
-
-#### Request
-```json
-{
-  "id": "e9ab1d09-d46d-464b-82a2-9509268b9c81",
-  "name": "Produto Atualizado",
-  "description": "Nova descrição",
-  "imageUrl": "https://imagem.com/nova.png",
-  "category": "BOOKS",
-  "priceInCents": 200000
-}
-```
-
----
-
-### ❌ Deletar produto
-
-**DELETE /products/{id}**
-
----
-
-## ▶️ Como rodar o projeto
-
+### 1. Clonar o repositório
 ```bash
-# Clonar o repositório
-git clone https://github.com/seu-usuario/api-crud-java-springboot.git
+git clone <url-do-repo>
+cd GoodHamburger
+```
 
-# Entrar na pasta
-cd api-crud-java-springboot
+### 2. Iniciar a API (terminal 1)
+```bash
+cd src/GoodHamburger.Api
+dotnet run --launch-profile https
+```
+API disponível em: **https://localhost:7000**  
+Swagger UI: **https://localhost:7000/swagger**
 
-# Rodar aplicação
-./mvnw spring-boot:run
+### 3. Iniciar o Frontend Blazor (terminal 2)
+```bash
+cd src/GoodHamburger.Web
+dotnet run --launch-profile https
+```
+Frontend disponível em: **https://localhost:7001**
+
+### 4. Executar os Testes
+```bash
+dotnet test tests/GoodHamburger.Tests
 ```
 
 ---
 
-## 📌 Observações
+## 📋 Cardápio
 
-- O ID é gerado automaticamente (UUID)
-- O campo `createdAt` é preenchido automaticamente
-- O preço é armazenado em centavos (`priceInCents`)
+| Item | Preço | Categoria |
+|---|---|---|
+| X Burger | R$ 5,00 | Sanduíche |
+| X Egg | R$ 4,50 | Sanduíche |
+| X Bacon | R$ 7,00 | Sanduíche |
+| Batata Frita | R$ 2,00 | Acompanhamento |
+| Refrigerante | R$ 2,50 | Acompanhamento |
 
-## 👨‍💻 Autor
+### Regras de Desconto
 
-Lucas Santana🚀
+| Combinação | Desconto |
+|---|---|
+| Sanduíche + Batata + Refrigerante | 20% |
+| Sanduíche + Refrigerante | 15% |
+| Sanduíche + Batata Frita | 10% |
+| Outras combinações | 0% |
+
+---
+
+## 🔌 Endpoints da API
+
+| Método | URL | Descrição |
+|---|---|---|
+| `GET` | `/api/menu` | Retorna o cardápio completo |
+| `GET` | `/api/orders` | Lista todos os pedidos |
+| `POST` | `/api/orders` | Cria um novo pedido |
+| `GET` | `/api/orders/{id}` | Consulta pedido por ID |
+| `PUT` | `/api/orders/{id}` | Atualiza itens de um pedido |
+| `DELETE` | `/api/orders/{id}` | Remove um pedido |
+
+### Exemplo: Criar Pedido
+```http
+POST https://localhost:7000/api/orders
+Content-Type: application/json
+
+{
+  "items": [1, 4, 5]
+}
+```
+Códigos: `1=XBurger`, `2=XEgg`, `3=XBacon`, `4=BatataFrita`, `5=Refrigerante`
+
+### Exemplo de Resposta
+```json
+{
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "createdAt": "2025-04-21T00:00:00Z",
+  "updatedAt": "2025-04-21T00:00:00Z",
+  "items": [
+    { "code": 1, "name": "X Burger", "price": 5.00, "type": "Sandwich" },
+    { "code": 4, "name": "Batata Frita", "price": 2.00, "type": "Side" },
+    { "code": 5, "name": "Refrigerante", "price": 2.50, "type": "Side" }
+  ],
+  "subtotal": 9.50,
+  "discountPercentage": 20,
+  "discountAmount": 1.90,
+  "total": 7.60
+}
+```
+
+---
+
+## 🏗️ Arquitetura e Decisões Técnicas
+
+### Estrutura do Projeto
+```
+GoodHamburger/
+├── src/
+│   ├── GoodHamburger.Api/          ← API REST (ASP.NET Core 10)
+│   │   ├── Domain/
+│   │   │   ├── Entities/           ← Order, MenuItem (rich domain)
+│   │   │   ├── Enums/              ← MenuItemType, MenuItemCode
+│   │   │   └── Catalog/            ← Menu estático (fonte de verdade)
+│   │   ├── Application/
+│   │   │   ├── DTOs/               ← Contratos da API (records)
+│   │   │   ├── Interfaces/         ← IOrderRepository
+│   │   │   └── Services/           ← OrderService (lógica de negócio)
+│   │   ├── Infrastructure/
+│   │   │   └── Repositories/       ← InMemoryOrderRepository
+│   │   └── Controllers/            ← OrdersController, MenuController
+│   └── GoodHamburger.Web/          ← Frontend Blazor WASM
+│       ├── Pages/                  ← Home, MenuPage, Orders, Create, Edit
+│       ├── Services/               ← ApiService (HttpClient)
+│       └── Models/                 ← DTOs do frontend
+└── tests/
+    └── GoodHamburger.Tests/        ← xUnit + FluentAssertions (15 testes)
+```
+
+### Decisões de Arquitetura
+
+**1. Regras de desconto na entidade `Order`**  
+O cálculo de desconto fica encapsulado em `Order.CalculateDiscountPercentage()` usando C# pattern matching. Isto garante que a regra nunca pode ser contornada e é facilmente testável.
+
+**2. Catálogo estático em `Menu.cs`**  
+Como os preços não mudam durante a execução, o cardápio é um objeto estático imutável. Evita um repositório de cardápio desnecessário. Em produção, seria uma tabela de BD com cache.
+
+**3. Repositório In-Memory com `ConcurrentDictionary`**  
+Thread-safe sem dependências externas. O padrão Repository garante que trocar para EF Core + PostgreSQL é uma mudança de uma única classe.
+
+**4. DTOs como `record`**  
+Os DTOs de resposta são imutáveis por defeito. Separam completamente o contrato HTTP do domínio.
+
+**5. Frontend Blazor WASM**  
+Corre inteiramente no browser. O `ApiService` é o único ponto de contacto com a API. O preview de desconto no formulário recalcula os mesmos valores que a API calcularia, dando feedback imediato ao utilizador.
+
+**6. Validação de erros**  
+- Itens duplicados → `400 Bad Request` com mensagem clara
+- Dois sanduíches → `400 Bad Request`
+- ID inexistente → `404 Not Found`
+- Todas as respostas de erro usam `ProblemDetails` (RFC 7807)
+
+### O que ficou de fora (e porquê)
+- **Base de dados persistente**: Optei por in-memory para zero dependências externas. Em produção: EF Core + PostgreSQL.
+- **Autenticação/JWT**: Fora do escopo do teste.
+- **Docker**: Adicionaria um `docker-compose.yml` em produção.
+- **Testes de integração**: O `public partial class Program` está preparado para adicionar WebApplicationFactory nos testes.
+
+---
+
+## 🧪 Cobertura de Testes (15 testes)
+
+| Categoria | Teste |
+|---|---|
+| Desconto | 20% — combo completo |
+| Desconto | 15% — sanduíche + refrigerante |
+| Desconto | 10% — sanduíche + batata |
+| Desconto | 0% — só sanduíche |
+| Desconto | 0% — só acompanhamento |
+| Validação | Itens duplicados |
+| Validação | Dois sanduíches diferentes |
+| Validação | Pedido vazio |
+| Validação | Duas batatas fritas |
+| CRUD | Listar após criar |
+| CRUD | Consultar por ID |
+| CRUD | ID inexistente → KeyNotFoundException |
+| CRUD | Atualizar recalcula desconto |
+| CRUD | Remover pedido |
+| CRUD | Remover ID inexistente |
